@@ -2,6 +2,7 @@ import "./Work.css";
 
 const Work = () => {
   const workExperience = [
+    // this is a local datat
     {
       id: 1,
       year: "2023 - Present",
