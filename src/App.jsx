@@ -1,24 +1,17 @@
+import { Route, Routes } from 'react-router-dom';
 import Navbar from "./components/Navbar/Navbar";
-import Contact from "./Contact/Contact";
-import Experience from "./Experience/Experience";
-import Expertise from "./Expertise/Expertise";
-import Footer from "./Footer/Footer";
-import Hero from "./Hero/Hero";
-import Projects from "./Projects/Projects";
-import Work from "./Work/Work";
+import HomePage from "./pages/HomePage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 function App() {
   return (
     <>
       <Navbar />
-      <Hero />
-      <Expertise />
-      <Work />
-      <Projects />
-      <Experience />
-      <Contact />
-      <Footer />
-     </>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+      </Routes>
+    </>
   );
 }
 

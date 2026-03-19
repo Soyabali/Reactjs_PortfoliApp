@@ -1,24 +1,28 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navItems = [
-    { name: "Home", href: "#hero", id: "01" },
-    { name: "Expertise", href: "#expertise", id: "02" },
-    { name: "Work", href: "#work", id: "03" },
-    { name: "Experience", href: "#experience", id: "04" },
-    { name: "Projects", href: "#projects", id: "05" },
-    { name: "Contact", href: "#contact", id: "06" }
+    { name: "Home", path: "/", id: "01" },
+    { name: "Privacy Policy", path: "/privacy-policy", id: "07" }
   ];
 
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
+  const scrollItems = [
+    { name: "Expertise", id: "expertise", index: "02" },
+    { name: "Work", id: "work", index: "03" },
+    { name: "Experience", id: "experience", index: "04" },
+    { name: "Projects", id: "projects", index: "05" },
+    { name: "Contact", id: "contact", index: "06" }
+  ];
+
+  const handleScrollClick = (id) => {
     setIsMenuOpen(false);
-    
-    const target = document.querySelector(href);
+    const target = document.querySelector(`#${id}`);
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -28,9 +32,9 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         {/* Logo */}
-        <div className="navbar-logo">
+        <Link to="/" className="navbar-logo">
           <span className="logo-accent">Soyab</span> Ali
-        </div>
+        </Link>
 
         {/* Menu Toggle Button */}
         <button 
@@ -44,9 +48,24 @@ const Navbar = () => {
         <ul className={`nav-links ${isMenuOpen ? "active" : ""}`}>
           {navItems.map((item, idx) => (
             <li key={idx} className="nav-item">
+              <Link 
+                to={item.path}
+                className="nav-link"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="nav-text">{item.name}</span>
+              </Link>
+            </li>
+          ))}
+          
+          {location.pathname === "/" && scrollItems.map((item, idx) => (
+            <li key={idx} className="nav-item">
               <a 
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleScrollClick(item.id);
+                }}
                 className="nav-link"
               >
                 <span className="nav-text">{item.name}</span>
@@ -56,13 +75,18 @@ const Navbar = () => {
         </ul>
 
         {/* CTA Button */}
-        <a 
-          href="#contact"
-          onClick={(e) => handleNavClick(e, "#contact")}
-          className="navbar-cta"
-        >
-          Get In Touch
-        </a>
+        {location.pathname === "/" && (
+          <a 
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              handleScrollClick("contact");
+            }}
+            className="navbar-cta"
+          >
+            Get In Touch
+          </a>
+        )}
       </div>
     </nav>
   );
